@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mocky/view/home/home_page.dart';
+import 'package:mocky/util/app_rout.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,13 +7,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Mocky',
-      home: HomePage(),
+      //app rout
+      initialRoute: '/splash',
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }
