@@ -1,30 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 import '../../util/app_urls.dart';
-import '../api/menu_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/menu_item.dart';
+
 class APIService {
-  Future<MenuResponse?> getMenu() async {
-    try {
-      var response = await http.Client().post(Uri.parse(AppUrls.baseUrl),
-          headers: {},
-          body: jsonEncode({}));
+  Future<MenuResponse> getMenu() async {
+    var response = await http.Client()
+        .post(Uri.parse(AppUrls.baseUrl), body: jsonEncode({}));
 
-      log("API>>>URL>>${AppUrls.baseUrl}");
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        return MenuResponse.fromJson(json.decode(response.body));
-      } else if (response.statusCode == 401) {
-
-      }
-    } catch (e) {
-      log("Error in API$e");
-
-      if (e.toString().startsWith("SocketException")) {
-        //no inter net case
-      }
+      return MenuResponse.fromJson(jsonResponse[0]);
+    } else {
+      throw Exception('Failed to load post');
     }
-    return null;
   }
 }

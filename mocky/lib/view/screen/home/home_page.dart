@@ -49,42 +49,38 @@ class _HomePageState extends State<HomePage> {
           child: BlocConsumer<MenuBloc, MenuState>(
             listener: (context, state) {
               if (state is MenuLoadedState) {
-                var data = state.response.tableMenuList![0].categoryDishes;
-                for (int i = 0; i < data!.length; i++) {
+                var data = state.response.tableMenuList[0].categoryDishes;
+                for (int i = 0; i < data.length; i++) {
                   var menuData = data[i];
                   menuList.add(
                     MenuModel(
-                      id: menuData.dishId.toString(),
-                      itemName: menuData.dishName.toString(),
-                      itemPrice: menuData.dishPrice.toString(),
-                      imageUrl: menuData.dishImage.toString(),
+                      id: menuData.dishId,
+                      itemName: menuData.dishName,
+                      itemPrice: menuData.dishPrice,
+                      imageUrl: menuData.dishImage,
                     ),
                   );
                 }
               }
             },
             builder: (context, state) {
-              log("No Internet");
               if (state is NoInternetState) {
                 return const NoInterNet();
               }
               if (state is MenuInitialState) {
-                log("Inital");
 
                 return menuShimmer(context);
               }
               if (state is MenuLoadingState) {
-                log("Loading");
 
                 return menuShimmer(context);
               }
               if (state is MenuLoadedState) {
-                log("Loaded");
 
-                return menuShimmer(context);
+                return menuItemUi(menuList);
+
               }
               if (state is ErrorState) {
-                log("Error");
 
                 return Center(
                   child: appTextView(
@@ -96,13 +92,11 @@ class _HomePageState extends State<HomePage> {
 
                 return Center(
                   child: appTextView(
-                      name: 'Plase Log out',
+                      name: 'Please Log out',
                       isBold: true,
                       color: AppColor.kRed),
                 );
               }
-              log("Else");
-
               return menuItemUi(menuList);
             },
           ),
@@ -117,10 +111,9 @@ class _HomePageState extends State<HomePage> {
       separatorBuilder: (context, index) => dividerSH(),
       itemBuilder: (context, index) {
         //dish details
-        log("Item Length>>>${menuList.length}");
-        var itemName = 'Biriyani';
-        // var itemImage = meniList[index].dishImage.toString();
-        var itemPrice = '120';
+        var itemName = menuList[index].itemName.toString();
+         var itemImage = menuList[index].imageUrl.toString();
+        var itemPrice = menuList[index].itemPrice.toString();
 
         return Card(
           shape: RoundedRectangleBorder(

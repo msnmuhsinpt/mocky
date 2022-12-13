@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mocky/data/api/menu_response.dart';
+import '../../../../data/model/menu_item.dart';
 import '../../../../data/service/Api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'menu_event.dart';
@@ -12,8 +12,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     on<MenuApiEvent>((event, emit) async {
       emit(MenuLoadingState());
       final response = await _apiService.getMenu();
-        emit(MenuLoadedState(response!));
-
+      emit(MenuLoadedState(response));
     });
   }
 }

@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 class MenuModel {
   String id;
   String itemName;
-  String itemPrice;
+  dynamic itemPrice;
   String imageUrl;
   MenuModel({
     required this.id,
